@@ -118,11 +118,16 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
 // Forward-declare this helper function since it is defined in rgb_matrix.c.
 void rgb_matrix_update_pwm_buffers(void);
 
+#    define LAYER_POINTER_HSV 180, 120, 50
+
 bool rgb_matrix_indicators_user() {
-    switch (get_highest_layer(layer_state)) {
-        case LAYER_POINTER:
-            rgb_matrix_set_color_all(8, 16, 16);
+    switch (get_highest_layer(layer_state | default_layer_state)) {
+        case LAYER_POINTER: {
+            HSV hsv = (HSV){LAYER_POINTER_HSV};
+            RGB rgb = hsv_to_rgb(hsv);
+            rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
             return false;
+        }
         default:
             return true;
     }
@@ -131,11 +136,6 @@ bool rgb_matrix_indicators_user() {
 #endif
 
 void shutdown_user(void) {
-#ifdef RGBLIGHT_ENABLE
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(1);
-    rgblight_setrgb(RGB_RED);
-#endif // RGBLIGHT_ENABLE
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_set_color_all(RGB_RED);
     rgb_matrix_update_pwm_buffers();
