@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├────────────────────────────────────────────────────────────────────┤ ├───────────────────────────────────────────────────────────────┤
        S(KC_GRAVE), RCS(KC_1), RCS(KC_2), RCS(KC_3), RCS(KC_4), RCS(KC_5),   RCS(KC_6), RCS(KC_7), RCS(KC_8), RCS(KC_9),  KC_DEL,   KC_GRAVE,
   // ╰────────────────────────────────────────────────────────────────────┤ ├───────────────────────────────────────────────────────────────╯
-                                              _______,  _______,  _______,       KC_RGUI, LN_ENT
+                                              _______,  _______,  _______,     _______,  _______
   //                                         ╰────────────────────────────╯ ╰───────────────────╯
   ),
 
@@ -80,11 +80,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_ARROW] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭────────────────────────────────────────────────────────────────╮
-       RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,       KC_HOME,    KC_PGDN,  KC_PGUP,     KC_END, XXXXXXX, XXXXXXX,
+       RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,       KC_HOME,    KC_PGDN,  KC_PGUP,     KC_END, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────┤
-       RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI, DPI_MOD,       KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT, XXXXXXX, XXXXXXX,
+       _______, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI,       KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT, _______, _______,
   // ├──────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────┤
-       RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD, S_D_MOD,    A(KC_LEFT), A(KC_DOWN), A(KC_UP), A(KC_RGHT), XXXXXXX, XXXXXXX,
+       _______, RGB_RMOD,RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD,    A(KC_LEFT), A(KC_DOWN), A(KC_UP), A(KC_RGHT), _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├────────────────────────────────────────────────────────────────╯
                                   EE_CLR, XXXXXXX,  QK_BOOT,       _______,    _______
   //                            ╰───────────────────────────╯ ╰───────────────────────╯
