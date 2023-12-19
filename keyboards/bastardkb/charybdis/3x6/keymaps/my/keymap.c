@@ -68,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_POINTER] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
+       _______, _______, SNIPING, DRG_TOG, _______, _______,    _______, _______, DRG_TOG, SNIPING, _______, _______,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, KC_BTN2, DRGSCRL, KC_BTN1, _______,    _______, KC_BTN1, DRGSCRL, KC_BTN2, _______, _______,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       _______, _______, _______, SNIPING, _______, _______,    _______, _______, SNIPING, _______, _______, _______,
+       _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   _______, _______, _______,    _______, _______
   //                            ╰───────────────────────────╯ ╰──────────────────╯
@@ -93,12 +93,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 //
 #ifdef POINTING_DEVICE_ENABLE
-layer_state_t layer_state_set_user(layer_state_t state) {
-    int current_layer = get_highest_layer(state);
-    // Enable drag-scroll for arrow layer
-    charybdis_set_pointer_dragscroll_enabled(current_layer == LAYER_ARROW);
-    return state;
-}
 
 void pointing_device_init_user(void) {
     set_auto_mouse_layer(LAYER_POINTER);
@@ -109,9 +103,39 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
         case SNIPING:
         case DRGSCRL:
+        case DRG_TOG:
             return true;
         default:
             return false;
+    }
+}
+
+static void set_dragscroll(bool enable) {
+    charybdis_set_pointer_dragscroll_enabled(enable);
+
+    auto_mouse_layer_off();
+    set_auto_mouse_enable(!enable);
+
+    enable ? layer_on(LAYER_POINTER) : layer_off(LAYER_POINTER);
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    bool dragscroll_enabled = charybdis_get_pointer_dragscroll_enabled();
+
+    if (dragscroll_enabled && record->event.pressed) {
+        set_dragscroll(false);
+        return false;
+    }
+
+    switch (keycode) {
+        case DRG_TOG:
+            if (record->event.pressed) {
+                bool next = !dragscroll_enabled;
+                set_dragscroll(next);
+            }
+            return false;
+        default:
+            return true;
     }
 }
 #endif
